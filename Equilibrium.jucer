@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="keFHM5" name="Equilibrium" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              cppLanguageStandard="17">
   <MAINGROUP id="CwrdHV" name="Equilibrium">
     <GROUP id="{AE6B7197-8CF0-626B-9589-765A0C8766F9}" name="Source">
       <FILE id="uPibKB" name="PluginProcessor.cpp" compile="1" resource="0"
