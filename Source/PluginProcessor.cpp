@@ -166,7 +166,8 @@ bool EquilibriumAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* EquilibriumAudioProcessor::createEditor()
 {
-    return new EquilibriumAudioProcessorEditor (*this);
+//    return new EquilibriumAudioProcessorEditor (*this);
+    return new juce::GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================
@@ -210,7 +211,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout
     
     layout.add(std::make_unique<juce::AudioParameterFloat>("Peak Quality",
                                                            "Peak Quality",
-                                                           juce::NormalisableRange<float>(0.1f, 10.f, 0.5f, 1.f),
+                                                           juce::NormalisableRange<float>(0.1f, 10.f, 0.05f, 1.f),
                                                            1.f));
     
     juce::StringArray stringArray;
