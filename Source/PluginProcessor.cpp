@@ -97,8 +97,11 @@ void EquilibriumAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
     // initialisation that you need..
     
     juce::dsp::ProcessSpec spec;
+    
     spec.maximumBlockSize = samplesPerBlock;
+    
     spec.numChannels = 1;
+    
     spec.sampleRate = sampleRate;
     
     leftChain.prepare(spec);
@@ -153,6 +156,7 @@ void EquilibriumAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
         buffer.clear (i, 0, buffer.getNumSamples());
 
     juce::dsp::AudioBlock<float> block(buffer);
+    
     auto leftBlock = block.getSingleChannelBlock(0);
     auto rightBlock = block.getSingleChannelBlock(1);
     
