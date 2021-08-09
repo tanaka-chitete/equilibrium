@@ -27,11 +27,24 @@ EquilibriumAudioProcessorEditor::EquilibriumAudioProcessorEditor (EquilibriumAud
         addAndMakeVisible(comp);
     }
     
+    const auto &params = audioProcessor.getParameters();
+    for (auto param : params)
+    {
+        param->addListener(this);
+    }
+    
+    startTimerHz(60);
+    
     setSize (600, 400);
 }
 
 EquilibriumAudioProcessorEditor::~EquilibriumAudioProcessorEditor()
 {
+    const auto &params = audioProcessor.getParameters();
+    for (auto param : params)
+    {
+        param->removeListener(this);
+    }
 }
 
 //==============================================================================
@@ -141,7 +154,12 @@ void EquilibriumAudioProcessorEditor::timerCallback()
     if (parametersChanged.compareAndSetBool(false, true))
     {
         // Update the monochain
+        auto chainSettings = getChainSettings(audioProcessor.apvts);
+        auto peakCoefficients = makePeakFilter(chainSettings, audioProcessor.getSampleRate());
+        updateCoefficients(monoChain.get<ChainPositions::Peak>().coefficients, peakCoefficients);
+        
         // Signal a repaint
+        repaint();
     }
 }
 
