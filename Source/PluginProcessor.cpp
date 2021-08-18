@@ -108,6 +108,9 @@ void EquilibriumAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
     rightChain.prepare(spec);
     
     updateFilters();
+    
+    leftChannelFifo.prepare(samplesPerBlock);
+    rightChannelFifo.prepare(samplesPerBlock);
 }
 
 void EquilibriumAudioProcessor::releaseResources()
@@ -169,6 +172,9 @@ void EquilibriumAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
     
     leftChain.process(leftContext);
     rightChain.process(rightContext);
+    
+    leftChannelFifo.update(buffer);
+    rightChannelFifo.update(buffer);
 }
 
 //==============================================================================
