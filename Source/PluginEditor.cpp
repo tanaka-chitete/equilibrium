@@ -65,6 +65,45 @@ void LookAndFeel::drawRotarySlider(juce::Graphics &g,
     }
 }
 
+void LookAndFeel::drawToggleButton(juce::Graphics &g,
+                                   juce::ToggleButton &toggleButton,
+                                   bool shouldDrawButtonHighlighted,
+                                   bool shouldDrawButtonAsDown)
+{
+    using namespace juce;
+    
+    Path powerButton;
+    
+    auto bounds = toggleButton.getLocalBounds();
+    auto size = jmin(bounds.getWidth(), bounds.getHeight()) - 3;
+    auto r = bounds.withSizeKeepingCentre(size, size).toFloat();
+    
+    float ang = 35;
+    
+    size -= 7;
+    
+    powerButton.addCentredArc(r.getCentreX(),
+                              r.getCentreY(),
+                              size * 0.5,
+                              size * 0.5, 0.f,
+                              degreesToRadians(ang),
+                              degreesToRadians(360.f - ang),
+                              true);
+    
+    powerButton.startNewSubPath(r.getCentreX(), r.getY());
+    powerButton.lineTo(r.getCentre());
+    
+    PathStrokeType pst(1.f, PathStrokeType::JointStyle::curved);
+    
+    auto colour = toggleButton.getToggleState() ? Colours::dimgrey : Colour(0u, 172u, 1u);
+    
+    g.setColour(colour);
+    
+    g.strokePath(powerButton, pst);
+    g.drawEllipse(r, 1);
+}
+
+
 //==============================================================================
 void RotarySliderWithLabels::paint(juce::Graphics &g)
 {
@@ -577,12 +616,18 @@ analyserEnabledButtonAttachment(audioProcessor.apvts, "Analyser Enabled", analys
         addAndMakeVisible(comp);
     }
     
-    setSize (600, 480);
+    peakBypassButton.setLookAndFeel(&lnf);
+    lowCutBypassButton.setLookAndFeel(&lnf);
+    highCutBypassButton.setLookAndFeel(&lnf);
+    
+    setSize(600, 480);
 }
 
 EquilibriumAudioProcessorEditor::~EquilibriumAudioProcessorEditor()
 {
-
+    peakBypassButton.setLookAndFeel(nullptr);
+    lowCutBypassButton.setLookAndFeel(nullptr);
+    highCutBypassButton.setLookAndFeel(nullptr);
 }
 
 //==============================================================================
